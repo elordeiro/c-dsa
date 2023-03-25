@@ -1,6 +1,8 @@
 # DataStructures_C
 A few common data structures implemented in C including Heap (max or min), Linked List and Vectors
 
+main.c constains some unit tests for all included data structures
+
 List of functions and structs in each file  
 
 ```

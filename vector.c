@@ -38,19 +38,6 @@ int vector_pop(Vector* vec) {
     return tail;
 }
 
-void vector_remove(Vector* vec, int x) {
-    // int tail = vec->vec[vec->len - 1];
-    // vec->len--;
-    // if (vec->len <= (vec->cap / 4)) {
-    //     halve_vec_cap(vec);
-    // }
-    // return tail;
-
-    // vec->vec[x] = 0;
-    // vec->len--;
-    return;
-}
-
 void print_vector(Vector* vec) {
     printf("[");
     for (int i = 0; i < vec->len - 1; i++) {

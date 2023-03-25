@@ -2,7 +2,6 @@
 
 void double_vec_cap(Vector* vec) {
     vec->vec = realloc(vec->vec, (sizeof(int) * vec->cap * 2));
-    // vec->vec = realloc(vec->vec, vec->cap * 2);
     vec->cap *= 2;
     return;
 }

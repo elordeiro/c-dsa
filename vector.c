@@ -23,7 +23,7 @@ int vector_peek(Vector* vec) {
 }
 
 void halve_vec_cap(Vector* vec) {
-    vec = realloc(vec, vec->cap / 2);
+    vec->vec = realloc(vec->vec, (sizeof(int) * vec->cap / 2));
     vec->cap /= 2;
     return;
 }

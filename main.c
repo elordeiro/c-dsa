@@ -122,6 +122,29 @@ int main () {
     my_vec->print(my_vec);
     #endif
 
+    //5
+    vec = my_vec->len;
+    printf("\nCalling my_vec->len returns: %d\n", vec);
+    vec = my_vec->cap;
+    printf("Calling my_vec->cap returns: %d\n", vec);
+    printf("\nCalling my_vec->pop() 11 times returns:");
+    for (int i = 0; i < 11; i++) {
+        vec = my_vec->pop(my_vec);
+        printf(" %d", vec);
+    }
+    printf("\n");
+    my_vec->print(my_vec);
+    vec = my_vec->len;
+    printf("\nCalling my_vec->len returns: %d\n", vec);
+    vec = my_vec->cap;
+    printf("Calling my_vec->cap returns: %d\n", vec);
+    vec = my_vec->pop(my_vec);
+    printf("\nCalling my_vec->pop() returns: %d\n", vec);
+    vec = my_vec->len;
+    printf("\nCalling my_vec->len returns: %d\n", vec);
+    vec = my_vec->cap;
+    printf("Calling my_vec->cap returns: %d\n", vec);
+    
     printf("\nDone\n");
     return 0;
 }

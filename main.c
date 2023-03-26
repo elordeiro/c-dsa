@@ -1,11 +1,10 @@
-#include <time.h>
-#include "heap.h"
-#include "vector.h"
-#include "linked_list.h"
+#include "data_structures.h"
 
-#define TEST_Heap 1
-#define TEST_LINKED_LIST 1
-#define TEST_VECTOR 1
+// #define TEST_Heap 1
+// #define TEST_LINKED_LIST 1
+// #define TEST_VECTOR 1
+// #define TEST_BINARY_TREE 1
+#define TEST_QUICKSORT 1
 
 int main () {
     srand(time(NULL));
@@ -13,138 +12,181 @@ int main () {
     #ifdef TEST_Heap
     printf("Testing Max Heap\n");
     // 1)
-    printf("\nCalling maxPQ->push(...) returns:\n");
-    Heap* maxPQ = new_Heap("max");
+    printf("\nCalling ds_heap_push(...) returns:\n");
+    Heap* maxPQ = ds_heap_new_Heap("max");
     for (int i = 0; i < 10; i++) {
-        maxPQ->push(maxPQ, rand() % 1000);
+        ds_heap_push(maxPQ, rand() % 1000);
     }
-    maxPQ->print(maxPQ, maxPQ->head);
+    ds_heap_print(maxPQ);
     
     // 2)
-    int max = maxPQ->peek(maxPQ);
-    printf("\nCalling maxPQ->peek() returns: %d\n", max);
+    int max = ds_heap_peek(maxPQ);
+    printf("\nCalling ds_heap_peek() returns: %d\n", max);
     
     // 3)
-    max = maxPQ->pop(maxPQ);
-    printf("\nCalling maxPQ->pop() returns: %d\n", max);
-    maxPQ->print(maxPQ, maxPQ->head);
+    max = ds_heap_pop(maxPQ);
+    printf("\nCalling ds_heap_pop() returns: %d\n", max);
+    ds_heap_print(maxPQ);
     
-    printf("\n----------------------------------------------------------------------------------------\n\n");
+    printf("\n---------------------------------------------------------\n\n");
     
     printf("Testing Min Heap\n");
     
     // 1)
-    printf("\nCalling minPQ->push(...) returns:\n");
-    Heap* minPQ = new_Heap("min");
+    printf("\nCalling ds_heap_push(...) returns:\n");
+    Heap* minPQ = ds_heap_new_Heap("min");
     for (int i = 0; i < 10; i++) {
-        minPQ->push(minPQ, rand() % 1000);
+        ds_heap_push(minPQ, rand() % 1000);
     }
-    minPQ->print(minPQ, minPQ->head);
+    ds_heap_print(minPQ);
     
     // 2)
-    int min = minPQ->peek(minPQ);
-    printf("\nCalling minPQ->peek() returns: %d\n", min);
+    int min = ds_heap_peek(minPQ);
+    printf("\nCalling ds_heap_peek() returns: %d\n", min);
     
     // 3)
-    min = minPQ->pop(minPQ);
-    printf("\nCalling minPQ->pop() returns: %d\n", min);
-    minPQ->print(minPQ, minPQ->head);
+    min = ds_heap_pop(minPQ);
+    printf("\nCalling ds_heap_pop() returns: %d\n", min);
+    ds_heap_print(minPQ);
 
     #endif
 
-    printf("\n----------------------------------------------------------------------------------------\n\n");
+    printf("\n---------------------------------------------------------\n\n");
     
     #if TEST_LINKED_LIST
     printf("Testing Linked List\n");
     
     // 1)
-    printf("\nCalling my_list->push(...) returns:\n");
-    Linked_List* my_list = new_list();
-    my_list->push(my_list, 1000);
-    my_list->push(my_list, 100);
-    my_list->push(my_list, 10);
-    my_list->push(my_list, 1);
-    my_list->push(my_list, 11);
-    my_list->push(my_list, 111);
-    my_list->push(my_list, 1111);
-    my_list->push(my_list, 7);
+    printf("\nCalling ds_list_push(...) returns:\n");
+    List* my_list = ds_list_new_List();
+    ds_list_push(my_list, 1000);
+    ds_list_push(my_list, 100);
+    ds_list_push(my_list, 10);
+    ds_list_push(my_list, 1);
+    ds_list_push(my_list, 11);
+    ds_list_push(my_list, 111);
+    ds_list_push(my_list, 1111);
+    ds_list_push(my_list, 7);
     for (int i = 0; i < 10; i++) {
-       my_list->push(my_list, rand() % 1000);
+       ds_list_push(my_list, rand() % 1000);
     }
-    my_list->print(my_list);
+    ds_list_print(my_list);
     
     // 2)
-    int tail = my_list->peek(my_list);
-    printf("\nCalling my_list->peek() returns: %d\n", tail);
+    int tail = ds_list_peek(my_list);
+    printf("\nCalling ds_list_peek() returns: %d\n", tail);
 
     // 3)
-    tail = my_list->pop(my_list);
-    printf("\nCalling my_list->pop() returns: %d\n", tail);
-    my_list->print(my_list);
+    tail = ds_list_pop(my_list);
+    printf("\nCalling ds_list_pop() returns: %d\n", tail);
+    ds_list_print(my_list);
 
     // 4)
-    printf("\nCalling my_list->remove(7) returns:\n");
-    my_list->remove(my_list, 7);
-    my_list->print(my_list);
+    printf("\nCalling ds_list_remove(7) returns:\n");
+    ds_list_remove(my_list, 7);
+    ds_list_print(my_list);
 
     // 5)
-    printf("\nCalling my_list->heapify() returns:\n");
-    Heap* maxPQ2 = heapify_from_linked_list(my_list, "max");
-    maxPQ2->print(maxPQ2, maxPQ2->head);
+    printf("\nCalling ds_heap_new_Heap_from_List() returns:\n");
+    Heap* maxPQ2 = ds_heap_new_Heap_from_List(my_list, "max");
+    ds_heap_print(maxPQ2);
     #endif
 
-    printf("\n----------------------------------------------------------------------------------------\n\n");
+    printf("\n---------------------------------------------------------\n\n");
 
     #ifdef TEST_VECTOR
     printf("Testing Vector\n");
 
     // 1)
-    Vector* my_vec = from_ll_to_vector(my_list);
-    printf("\nCalling from_ll_to_vector() using the following linked list:\n");
-    my_list->print(my_list);
+    Vector* my_vec = ds_vector_new_Vector_from_List(my_list);
+    printf("\nCalling ds_vector_new_Vector_from_List() using the following linked list:\n");
+    ds_list_print(my_list);
     printf("returns:\n");
-    my_vec->print(my_vec);
+    ds_vector_print(my_vec);
     
     // 2)
-    int vec = my_vec->peek(my_vec);
-    printf("\nCalling my_vec->peek() returns: %d\n", vec);
-    my_vec->print(my_vec);
+    int vec = ds_vector_peek(my_vec);
+    printf("\nCalling ds_vector_peek() returns: %d\n", vec);
+    ds_vector_print(my_vec);
 
     // 3) 
-    vec = my_vec->pop(my_vec);
-    printf("\nCalling my_vec->pop() returns: %d\n", vec);
-    my_vec->print(my_vec);
+    vec = ds_vector_pop(my_vec);
+    printf("\nCalling ds_vector_pop() returns: %d\n", vec);
+    ds_vector_print(my_vec);
     
     // 4)
     vec = 7;
-    my_vec->push(my_vec, vec);
-    printf("\nCalling my_vec->push(7) returns:\n");
-    my_vec->print(my_vec);
-    #endif
+    ds_vector_push(my_vec, vec);
+    printf("\nCalling ds_vector_push(7) returns:\n");
+    ds_vector_print(my_vec);
 
     //5
     vec = my_vec->len;
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
-    printf("\nCalling my_vec->pop() 11 times returns:");
+    printf("\nCalling ds_vector_pop() 11 times returns:");
     for (int i = 0; i < 11; i++) {
-        vec = my_vec->pop(my_vec);
+        vec = ds_vector_pop(my_vec);
         printf(" %d", vec);
     }
     printf("\n");
-    my_vec->print(my_vec);
+    ds_vector_print(my_vec);
     vec = my_vec->len;
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
-    vec = my_vec->pop(my_vec);
-    printf("\nCalling my_vec->pop() returns: %d\n", vec);
+    vec = ds_vector_pop(my_vec);
+    printf("\nCalling ds_vector_pop() returns: %d\n", vec);
     vec = my_vec->len;
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
+    #endif
+
+    printf("\n---------------------------------------------------------\n\n");
+
+    #ifdef TEST_BINARY_TREE
+    printf("Testing Binary Tree\n");
+
+    // 1)
+    Tree* tree = ds_tree_new_Tree();
+    printf("\nCalling ds_tree_add_leaf(...) returns: \n");
+    for (int i = 0; i < 10; i++) {
+        ds_tree_add_leaf(tree, rand() % 1000);
+    }
+    ds_tree_print(tree);
+
+    // 2)
+    printf("\nRoot is: %d\n", tree->root->key);
+    printf("Calling ds_tree_remove() returns: \n");
+    ds_tree_remove(tree, tree->root->key);
+    ds_tree_print(tree);
+
+    // 3)
+    printf("Calling ds_heap_new_Heap_from_Tree() returns: \n");
+    Heap* from_tree = ds_heap_new_Heap_from_Tree(tree, "max");
+    ds_heap_print(from_tree);
+    #endif
+
+    printf("\n---------------------------------------------------------\n\n");
+
+    #ifdef TEST_QUICKSORT
+    printf("Testing Binary Tree\n");
     
+    // 1)
+    printf("\nCreating new Vector: \n");
+    Vector* new_vec = ds_vector_new_Vector();
+    for (int i = 0; i < 20; i++) {
+        ds_vector_push(new_vec, rand() % 1000);
+    }
+    ds_vector_print(new_vec);
+    printf("Sorting Vector: \n");
+    ds_quicksort(new_vec);
+    ds_vector_print(new_vec);
+    printf("Size of new_vec is: %d\n", new_vec->len);
+    #endif
+
     printf("\nDone\n");
     return 0;
 }

@@ -1,13 +1,13 @@
-#include "linked_list.h"
+#include "data_structures.h"
 
-Node* new_node(int x) {
+Node* ds_list_new_Node(int x) {
     Node* nd = malloc(sizeof(Node));
     nd->content = x;
     nd->next = NULL;
     return nd;
 }
 
-int ll_pop(Linked_List* list) {
+int ds_list_pop(List* list) {
     if (list == NULL || list->head == NULL) return -1;
     int poped = list->tail->content;
     if (list->head == list->tail) {
@@ -26,9 +26,9 @@ int ll_pop(Linked_List* list) {
     return poped;
 }
 
-void ll_push(Linked_List* list, int x) {
+void ds_list_push(List* list, int x) {
     if (list->head == NULL) {
-        Node* new_nd = new_node(x);
+        Node* new_nd = ds_list_new_Node(x);
         list->head = new_nd;
         list->tail = new_nd;
         return;
@@ -37,17 +37,17 @@ void ll_push(Linked_List* list, int x) {
     while (curr->next != NULL) {
         curr = curr->next; 
     }
-    curr->next = new_node(x);
+    curr->next = ds_list_new_Node(x);
     list->tail = curr->next;
     return;
 }
 
-int ll_peek(Linked_List* list) {
+int ds_list_peek(List* list) {
     if (list == NULL || list->head == NULL) return -1;
     return list->tail->content;
 }
 
-void ll_remove(Linked_List* list, int x) {
+void ds_list_remove(List* list, int x) {
     if (list == NULL || list->head == NULL) return;
     if (list->head->content == x) {
         Node* temp = list->head;
@@ -70,7 +70,7 @@ void ll_remove(Linked_List* list, int x) {
     return;
 }
 
-void print_list(Linked_List* list) {
+void ds_list_print(List* list) {
     if (list == NULL || list->head == NULL) return;
     Node* curr = list->head;
     printf("[");
@@ -82,14 +82,9 @@ void print_list(Linked_List* list) {
     return;
 }
 
-Linked_List* new_list() {
-    Linked_List* ll = malloc(sizeof(Linked_List));
+List* ds_list_new_List() {
+    List* ll = malloc(sizeof(List));
     ll->head = NULL;
     ll->tail = NULL;
-    ll->pop = ll_pop;
-    ll->push = ll_push;
-    ll->peek = ll_peek;
-    ll->remove = ll_remove;
-    ll->print = print_list;
     return ll;
 }

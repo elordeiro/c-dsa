@@ -11,8 +11,8 @@ int ds_list_pop(List* list) {
     if (list == NULL || list->head == NULL) return -1;
     int poped = list->tail->content;
     if (list->head == list->tail) {
-        list->head = NULL;
         free(list->head);
+        list->head = NULL;
         return poped;
     }
 
@@ -20,8 +20,8 @@ int ds_list_pop(List* list) {
     while (curr->next->next != NULL) {
         curr = curr->next; 
     }
-    curr->next = NULL;
     free(curr->next);
+    curr->next = NULL;
     list->tail = curr;
     return poped;
 }
@@ -52,8 +52,8 @@ void ds_list_remove(List* list, int x) {
     if (list->head->content == x) {
         Node* temp = list->head;
         list->head = list->head->next;
-        temp = NULL;
         free(temp);
+        temp = NULL;
         return;
     }
     Node* curr = list->head;
@@ -61,8 +61,8 @@ void ds_list_remove(List* list, int x) {
         if (curr->next->content == x) {
             Node* temp = curr->next;
             curr->next = curr->next->next;
-            temp = NULL;
             free(temp);
+            temp = NULL;
             return;
         }
         curr = curr->next;
@@ -79,6 +79,21 @@ void ds_list_print(List* list) {
         curr = curr->next;
     }
     printf("%d]\n", curr->content);
+    return;
+}
+
+void ds_list_destroy(List* list) {
+    if (list == NULL) return;
+    Node* current = list->head;
+    Node* next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = NULL;
+        current = next;
+    }
+    free(list);
+    list = NULL;
     return;
 }
 

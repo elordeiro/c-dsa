@@ -1,9 +1,9 @@
 #include "data_structures.h"
 
-// #define TEST_Heap 1
-// #define TEST_LINKED_LIST 1
-// #define TEST_VECTOR 1
-// #define TEST_BINARY_TREE 1
+#define TEST_Heap 1
+#define TEST_LINKED_LIST 1
+#define TEST_VECTOR 1
+#define TEST_BINARY_TREE 1
 #define TEST_QUICKSORT 1
 
 int main () {
@@ -27,6 +27,8 @@ int main () {
     max = ds_heap_pop(maxPQ);
     printf("\nCalling ds_heap_pop() returns: %d\n", max);
     ds_heap_print(maxPQ);
+
+    ds_heap_destroy(maxPQ);
     
     printf("\n---------------------------------------------------------\n\n");
     
@@ -49,6 +51,7 @@ int main () {
     printf("\nCalling ds_heap_pop() returns: %d\n", min);
     ds_heap_print(minPQ);
 
+    ds_heap_destroy(minPQ);
     #endif
 
     printf("\n---------------------------------------------------------\n\n");
@@ -90,6 +93,8 @@ int main () {
     printf("\nCalling ds_heap_new_Heap_from_List() returns:\n");
     Heap* maxPQ2 = ds_heap_new_Heap_from_List(my_list, "max");
     ds_heap_print(maxPQ2);
+
+    ds_heap_destroy(maxPQ2);
     #endif
 
     printf("\n---------------------------------------------------------\n\n");
@@ -103,6 +108,7 @@ int main () {
     ds_list_print(my_list);
     printf("returns:\n");
     ds_vector_print(my_vec);
+    ds_list_destroy(my_list);
     
     // 2)
     int vec = ds_vector_peek(my_vec);
@@ -142,6 +148,8 @@ int main () {
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
+
+    ds_vector_destroy(my_vec);
     #endif
 
     printf("\n---------------------------------------------------------\n\n");
@@ -167,12 +175,15 @@ int main () {
     printf("Calling ds_heap_new_Heap_from_Tree() returns: \n");
     Heap* from_tree = ds_heap_new_Heap_from_Tree(tree, "max");
     ds_heap_print(from_tree);
+
+    ds_heap_destroy(from_tree);
+    ds_tree_destroy(tree);
     #endif
 
     printf("\n---------------------------------------------------------\n\n");
 
     #ifdef TEST_QUICKSORT
-    printf("Testing Binary Tree\n");
+    printf("Testing QuickSort\n");
     
     // 1)
     printf("\nCreating new Vector: \n");
@@ -185,8 +196,10 @@ int main () {
     ds_quicksort(new_vec);
     ds_vector_print(new_vec);
     printf("Size of new_vec is: %d\n", new_vec->len);
-    #endif
 
+    ds_vector_destroy(new_vec);
+    #endif
+    
     printf("\nDone\n");
     return 0;
 }

@@ -122,6 +122,13 @@ Heap* ds_heap_new_Heap_from_Tree(Tree* tree, char* type) {
     return hp;
 }
 
+void ds_heap_destroy(Heap* heap) {
+    ds_vector_destroy(heap->vec);
+    free(heap);
+    heap = NULL;
+    return;
+}
+
 Heap* ds_heap_new_Heap(char* type) {
     Heap* new_Heap = malloc(sizeof(Heap));
     new_Heap->type = type;

@@ -192,6 +192,22 @@ void ds_tree_print(Tree* tree) {
     return;
 }
 
+void ds_tree_destroy_recursive(Leaf* leaf) {
+    if (leaf == NULL) return;
+    ds_tree_destroy_recursive(leaf->left);
+    ds_tree_destroy_recursive(leaf->right);
+    free(leaf);
+    leaf = NULL;
+    return;
+}
+
+void ds_tree_destroy(Tree* tree) {
+    ds_tree_destroy_recursive(tree->root);
+    free(tree);
+    tree = NULL;
+    return;
+}
+
 Tree* ds_tree_new_Tree() {
     Tree* new_tree = malloc(sizeof(Tree));
     new_tree->root = NULL;

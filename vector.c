@@ -64,6 +64,14 @@ void ds_vector_set_content_at_index_to(Vector* vec, int i, int x) {
     vec->vec[i] = x;
 }
 
+void ds_vector_destroy(Vector* vec) {
+    free(vec->vec);
+    vec->vec = NULL;
+    free(vec);
+    vec = NULL;
+    return;
+}
+
 Vector* ds_vector_new_Vector_from_List(List* list) {
     Vector* new_vec = ds_vector_new_Vector();
     if (list == NULL || list->head == NULL) return new_vec;

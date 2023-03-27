@@ -82,6 +82,23 @@ void ds_list_print(List* list) {
     return;
 }
 
+void ds_list_print_partial(List* list) {
+    int count = 0;
+    if (list == NULL || list->head == NULL) return;
+    Node* curr = list->head;
+    printf("[");
+    while (curr->next != NULL) {
+        if (count >= 7) {
+            break;
+        }
+        count++;
+        printf("%d, ", curr->content);
+        curr = curr->next;
+    }
+    printf("...]\n");
+    return;
+}
+
 void ds_list_destroy(List* list) {
     if (list == NULL) return;
     Node* current = list->head;
@@ -92,11 +109,19 @@ void ds_list_destroy(List* list) {
         current = NULL;
         current = next;
     }
+    list->head = NULL;
+    list->tail = NULL;
     free(list);
     list = NULL;
     return;
 }
-
+List* ds_list_new_List_from_Vector(Vector* vec) {
+    List* ll = ds_list_new_List();
+    for (int i = 0; i < vec->len; i++) {
+        ds_list_push(ll, ds_vector_get_content_at_index(vec, i));
+    }
+    return ll;
+}
 List* ds_list_new_List() {
     List* ll = malloc(sizeof(List));
     ll->head = NULL;

@@ -46,6 +46,23 @@ void ds_vector_print(Vector* vec) {
     return;
 }
 
+void ds_vector_partial_print(Vector* vec) {
+    if (vec->len <= 10) {
+        ds_vector_print(vec);
+        return;
+    }
+    printf("[");
+    for (int i = 0; i < 5; i++) {
+        printf("%d, ", vec->vec[i]);
+    }
+    printf("... , ");
+    for (int i = vec->len - 5; i < vec->len - 1; i++) {
+        printf("%d, ", vec->vec[i]);
+    }
+    printf("%d]\n", vec->vec[vec->len - 1]);
+    return;
+}
+
 Vector* ds_vector_new_Vector() {
     Vector* new_vec = malloc(sizeof(Vector));
     new_vec->vec =  malloc(2 * sizeof(int));

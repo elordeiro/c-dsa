@@ -192,6 +192,26 @@ void ds_tree_print(Tree* tree) {
     return;
 }
 
+void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
+    if (leaf == NULL) return;
+    ds_tree_print_partial_recursive(leaf->left, count);
+    if (*count < 7) {
+        (*count)++;
+        printf(" %d ", leaf->key);
+    }
+    ds_tree_print_partial_recursive(leaf->right, count);
+    return;
+}
+
+void ds_tree_print_partial(Tree* tree) {
+    if (tree == NULL || tree->root == NULL) return;
+    printf("[");
+    int count = 0;
+    ds_tree_print_partial_recursive(tree->root, &count);
+    printf("...]\n");
+    return;
+}
+
 void ds_tree_destroy_recursive(Leaf* leaf) {
     if (leaf == NULL) return;
     ds_tree_destroy_recursive(leaf->left);

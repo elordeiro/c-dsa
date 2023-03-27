@@ -85,6 +85,24 @@ int ds_heap_pop(Heap* Heap) {
     return max_or_min;
 }
 
+void ds_heap_print_partial(Heap* Heap) {
+    if (Heap == NULL) return;
+    if (Heap->vec->len <= 10) {
+        ds_heap_print(Heap);
+        return;
+    }
+    printf("[");
+    for (int i = 1; i < 6; i++) {
+        printf("%d, ", ds_vector_get_content_at_index(Heap->vec, i));
+    }
+    printf("... , ");
+    for (int i = Heap->tail - 4; i < Heap->tail; i++) {
+        printf("%d, ", ds_vector_get_content_at_index(Heap->vec, i));
+    }
+    printf("%d]\n", ds_vector_get_content_at_index(Heap->vec, Heap->tail));
+    return;
+}
+
 void ds_heap_print(Heap* Heap) {
     if (Heap == NULL) return;
     printf("[");

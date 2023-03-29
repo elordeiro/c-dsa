@@ -1,6 +1,8 @@
 #include "data_structures.h"
 
-Leaf* ds_tree_new_Leaf(int x) {
+// **__This is a helper function and should not be called externally__
+// **__Will cause compile time error if called externally__
+static Leaf* ds_tree_new_Leaf(int x) {
     Leaf* new_leaf = malloc(sizeof(Leaf));
     new_leaf->key = x;
     new_leaf->height = 1;
@@ -184,6 +186,7 @@ void ds_tree_print_recursive(Leaf* leaf) {
     return;
 }
 
+// *__Print entire Tree__
 void ds_tree_print(Tree* tree) {
     if (tree == NULL || tree->root == NULL) return;
     printf("[");
@@ -192,6 +195,7 @@ void ds_tree_print(Tree* tree) {
     return;
 }
 
+// **__Internal recursive function__
 void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
     if (leaf == NULL) return;
     ds_tree_print_partial_recursive(leaf->left, count);
@@ -203,6 +207,8 @@ void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
     return;
 }
 
+// **__Print a partial Tree with a maximun of 7 nodes__
+// **__Partial print example: [1, 2, 3, 4, 5, 6, 7, ...]__
 void ds_tree_print_partial(Tree* tree) {
     if (tree == NULL || tree->root == NULL) return;
     printf("[");
@@ -228,6 +234,8 @@ void ds_tree_destroy(Tree* tree) {
     return;
 }
 
+// **__Create a new Tree node__
+// **__Tree root is initiallized to NULL__
 Tree* ds_tree_new_Tree() {
     Tree* new_tree = malloc(sizeof(Tree));
     new_tree->root = NULL;

@@ -88,9 +88,21 @@ void test_linked_list() {
     printf("\nCalling ds_heap_new_Heap_from_List() returns:\n");
     Heap* maxPQ2 = ds_heap_new_Heap_from_List(my_list, "max");
     ds_heap_print(maxPQ2);
+    
+    // 6)
+    printf("\nCalling ds_lis_new_list_from_Vector() using the following vector returns:\n");
+    Vector* vec = ds_vector_new_Vector();
+    for (int i = 0; i < 20; i++) {
+        ds_vector_push(vec, rand() % 1000);
+    }
+    ds_vector_print(vec);
+    List* new_list = ds_list_new_List_from_Vector(vec);
+    ds_list_print(new_list);
 
+    ds_vector_destroy(vec);
     ds_heap_destroy(maxPQ2);
     ds_list_destroy(my_list);
+    ds_list_destroy(new_list);
     printf("\n---------------------------------------------------------\n\n");
 }
 
@@ -163,7 +175,7 @@ void test_binary_tree() {
     }
     ds_tree_print(tree);
     ds_tree_print_partial(tree);
-
+    
     // 2)
     printf("\nRoot is: %d\n", tree->root->key);
     printf("Calling ds_tree_remove() returns: \n");
@@ -180,7 +192,8 @@ void test_binary_tree() {
     ds_tree_destroy(tree);
     printf("\n---------------------------------------------------------\n\n");
 }
-void test_quick_sort() {
+void test_sort() {
+    srand(time(NULL)); 
     printf("\nBenchmarking sorting algorithms\n");
     
 
@@ -188,32 +201,44 @@ void test_quick_sort() {
     printf("\nSorting Vectors\n");
     Vector* vec1 = ds_vector_new_Vector();
     Vector* vec2 = ds_vector_new_Vector();
+    Vector* vec3 = ds_vector_new_Vector();
 
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 1000; i++) {
         ds_vector_push(vec1, rand() % 1000);
         ds_vector_push(vec2, rand() % 1000);
+        ds_vector_push(vec3, rand() % 1000);
     }
 
     printf("\nSorting vec1 with bubblesort. Vec1 len: %d\n", vec1->len);
-    ds_vector_partial_print(vec1);
+    ds_vector_print_partial(vec1);
     start = clock();
     ds_sort_bubblesort_vector(vec1);
     end = clock();
     execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
-    ds_vector_partial_print(vec1);
+    ds_vector_print_partial(vec1);
     printf("Bubblesort took %lfs\n", execution_time);
     
     printf("\nSorting vec2 with quicksort. Vec2 len: %d\n", vec2->len);
-    ds_vector_partial_print(vec2);
+    ds_vector_print_partial(vec2);
     start = clock();
     ds_sort_quicksort_vector(vec2);
     end = clock();
     execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
-    ds_vector_partial_print(vec2);
+    ds_vector_print_partial(vec2);
     printf("Quicksort took  %lfs\n", execution_time);
+
+    printf("\nSorting vec3 with mergesort. Vec3 len: %d\n", vec2->len);
+    ds_vector_print_partial(vec3);
+    start = clock();
+    ds_sort_mergesort_vector(vec3);
+    end = clock();
+    execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
+    ds_vector_print_partial(vec3);
+    printf("Mergesort took  %lfs\n", execution_time);
     
     ds_vector_destroy(vec1);
     ds_vector_destroy(vec2);
+    ds_vector_destroy(vec3);
     
     // 2)
     printf("\nSorting Lists\n");
@@ -241,7 +266,6 @@ void test_quick_sort() {
     execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
     ds_list_print_partial(ll2);
     printf("Quicksort took  %lfs\n", execution_time);
-    
     ds_list_destroy(ll1);
     ds_list_destroy(ll2);
 }
@@ -251,7 +275,8 @@ int main () {
     test_linked_list();
     test_vector(); 
     test_binary_tree();
-    test_quick_sort();
+    test_sort();
+    printf("\nDone\n");
     printf("\nDone\n");
     return 0;
 }

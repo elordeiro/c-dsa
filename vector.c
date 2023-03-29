@@ -46,7 +46,7 @@ void ds_vector_print(Vector* vec) {
     return;
 }
 
-void ds_vector_partial_print(Vector* vec) {
+void ds_vector_print_partial(Vector* vec) {
     if (vec->len <= 10) {
         ds_vector_print(vec);
         return;

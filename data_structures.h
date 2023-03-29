@@ -54,7 +54,7 @@ int     ds_vector_get_content_at_index(Vector* vec, int i);
 void    ds_vector_print(Vector* vec);
 void    ds_vector_destroy(Vector* vec);
 void    ds_vector_push(Vector* vec, int x);
-void    ds_vector_partial_print(Vector* vec);
+void    ds_vector_print_partial(Vector* vec);
 void    ds_vector_remove(Vector* vec, int x);
 void    ds_vector_set_content_at_index_to(Vector* vec, int i, int x);
 Vector* ds_vector_new_Vector_from_List(List* list);
@@ -71,7 +71,7 @@ int   ds_heap_pop(Heap* Heap);
 int   ds_heap_peek(Heap* Heap);
 void  ds_heap_print(Heap* Heap);
 void  ds_heap_destroy(Heap* heap);
-void ds_heap_print_partial(Heap* Heap);
+void  ds_heap_print_partial(Heap* Heap);
 void  ds_heap_push(Heap* Heap, int content);
 Heap* ds_heap_new_Heap(char* type);
 Heap* ds_heap_new_Heap_from_Tree(Tree* tree, char* type);
@@ -108,13 +108,13 @@ void  ds_tree_add_leaf(Tree* tree, int x);
 void  ds_tree_destroy(Tree* tree);
 Tree* ds_tree_new_Tree();
 
-// All tree functions that should be external:
+// All tree functions that should be internal:
 int   ds_tree_balance(Leaf* leaf);
 int   ds_tree_max_child_height(Leaf* leaf);
 void  ds_tree_print_recursive(Leaf* leaf);
 void  ds_tree_destroy_recursive(Leaf* leaf);
-void ds_tree_print_partial_recursive(Leaf* leaf, int* count);
-Leaf* ds_tree_new_Leaf(int x);
+void  ds_tree_print_partial_recursive(Leaf* leaf, int* count);
+static Leaf* ds_tree_new_Leaf(int x);
 Leaf* ds_tree_find_min(Leaf* node);
 Leaf* ds_tree_left_rotate(Leaf* leaf);
 Leaf* ds_tree_right_rotate(Leaf* leaf);
@@ -126,9 +126,13 @@ Leaf* ds_tree_add_leaf_recursive(Leaf* tree, int x);
 // QuickSort algorithm external functions:
 void ds_sort_quicksort_list(List** list);
 void ds_sort_bubblesort_list(List* list);
+void ds_sort_mergesort_vector(Vector* vec);
 void ds_sort_quicksort_vector(Vector* vec);
 void ds_sort_bubblesort_vector(Vector* vec);
 
 // QuickSort algorithm internal functions:
-void ds_sort_quicksort_recursive(int arr[], int left, int right);
+int* ds_sort_mergesort(int* arr, int length);
+int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len);
+void ds_sort_quicksort(int arr[], int left, int right);
+
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

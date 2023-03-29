@@ -9,20 +9,17 @@ Node* ds_list_new_Node(int x) {
 
 int ds_list_pop(List* list) {
     if (list == NULL || list->head == NULL) return -1;
-    int poped = list->tail->content;
+    int poped = list->head->content;
     if (list->head == list->tail) {
         free(list->head);
         list->head = NULL;
         return poped;
     }
 
-    Node* curr = list->head;
-    while (curr->next->next != NULL) {
-        curr = curr->next; 
-    }
-    free(curr->next);
-    curr->next = NULL;
-    list->tail = curr;
+    Node* temp = list->head;
+    list->head = list->head->next;
+    free(temp);
+    temp = NULL;
     return poped;
 }
 
@@ -33,18 +30,14 @@ void ds_list_push(List* list, int x) {
         list->tail = new_nd;
         return;
     }
-    Node* curr = list->head;
-    while (curr->next != NULL) {
-        curr = curr->next; 
-    }
-    curr->next = ds_list_new_Node(x);
-    list->tail = curr->next;
+    list->tail->next = ds_list_new_Node(x);
+    list->tail = list->tail->next ;
     return;
 }
 
 int ds_list_peek(List* list) {
     if (list == NULL || list->head == NULL) return -1;
-    return list->tail->content;
+    return list->head->content;
 }
 
 void ds_list_remove(List* list, int x) {
@@ -118,7 +111,7 @@ void ds_list_destroy(List* list) {
 List* ds_list_new_List_from_Vector(Vector* vec) {
     List* ll = ds_list_new_List();
     for (int i = 0; i < vec->len; i++) {
-        ds_list_push(ll, ds_vector_get_content_at_index(vec, i));
+        ds_list_push(ll, vec->vec[i]);
     }
     return ll;
 }

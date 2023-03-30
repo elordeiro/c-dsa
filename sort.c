@@ -1,9 +1,8 @@
 #include "data_structures.h"
 
-
 // sort vector using merge sort
 int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len) {
-    int* result = malloc(sizeof(int) * (left_arr_len + right_arr_len));
+    int* result = malloc(sizeof(int) * (u_int64_t) (left_arr_len + right_arr_len));
     int i = 0; int l = 0; int r = 0;
 
     while (l < left_arr_len && r < right_arr_len) {
@@ -24,14 +23,6 @@ int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_ar
         i++; r++;
     }  
 
-    // for (i = 0; i < left_arr_len; i++) {
-    //     printf("%d ", left_arr[i]);
-    // }
-    // printf("\n");
-    // for (i = 0; i < right_arr_len; i++) {
-    //     printf("%d ", right_arr[i]);
-    // }
-    // printf("\n\n");
     free(left_arr);
     left_arr = NULL;
     free(right_arr);
@@ -43,8 +34,8 @@ int* ds_sort_mergesort(int* arr, int length) {
     if (length <= 1) return arr;
     int mid = length / 2;
     
-    int* left_arr = malloc(sizeof(int) * mid);
-    int* right_arr = malloc(sizeof(int) * (length - mid));
+    int* left_arr = malloc(sizeof(int) * (u_int64_t) mid);
+    int* right_arr = malloc(sizeof(int) * (u_int64_t) (length - mid));
     int j = 0;
     for (int i = 0; i < length; i++) {
         if (i < mid) {
@@ -64,6 +55,16 @@ int* ds_sort_mergesort(int* arr, int length) {
 
 void ds_sort_mergesort_vector(Vector* vec) {
     vec->vec = ds_sort_mergesort(vec->vec, vec->len);
+    return;
+}
+
+void ds_sort_mergesort_list(List** list) {
+    Vector* vec = ds_vector_new_Vector_from_List(*list);
+    ds_sort_mergesort_vector(vec); 
+    ds_list_destroy(*list);
+    List* ll = ds_list_new_List_from_Vector(vec);
+    *list = ll;
+    ds_vector_destroy(vec);
     return;
 }
 

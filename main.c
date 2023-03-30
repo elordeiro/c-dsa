@@ -1,9 +1,10 @@
+
 #include "data_structures.h"
 double execution_time;
 clock_t start, end;
 
 void test_heap() {
-    srand(time(NULL));        
+    srand((u_int32_t) time(NULL));        
     printf("Testing Max Heap\n");
     // 1)
     printf("\nCalling ds_heap_push(...) returns:\n");
@@ -137,7 +138,7 @@ void test_vector() {
     printf("\nCalling ds_vector_push(7) returns:\n");
     ds_vector_print(my_vec);
 
-    //5
+    // 5)
     vec = my_vec->len;
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
@@ -153,12 +154,14 @@ void test_vector() {
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
-    vec = ds_vector_pop(my_vec);
-    printf("\nCalling ds_vector_pop() returns: %d\n", vec);
+    vec = ds_vector_peek(my_vec);
+    ds_vector_remove(my_vec, vec);
+    printf("\nCalling ds_vector_remove(%d) returns: %d\n", vec, vec);
     vec = my_vec->len;
     printf("\nCalling my_vec->len returns: %d\n", vec);
     vec = my_vec->cap;
     printf("Calling my_vec->cap returns: %d\n", vec);
+    ds_vector_print(my_vec);
 
     ds_vector_destroy(my_vec);
     printf("\n---------------------------------------------------------\n\n");
@@ -193,7 +196,7 @@ void test_binary_tree() {
     printf("\n---------------------------------------------------------\n\n");
 }
 void test_sort() {
-    srand(time(NULL)); 
+    srand((u_int32_t) time(NULL)); 
     printf("\nBenchmarking sorting algorithms\n");
     
 
@@ -203,7 +206,7 @@ void test_sort() {
     Vector* vec2 = ds_vector_new_Vector();
     Vector* vec3 = ds_vector_new_Vector();
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 100; i++) {
         ds_vector_push(vec1, rand() % 1000);
         ds_vector_push(vec2, rand() % 1000);
         ds_vector_push(vec3, rand() % 1000);
@@ -244,9 +247,13 @@ void test_sort() {
     printf("\nSorting Lists\n");
     List* ll1 = ds_list_new_List();
     List* ll2 = ds_list_new_List();
-    for (int i = 0; i < 10000; i++) {
+    List* ll3 = ds_list_new_List();
+    
+    srand((u_int32_t) time(NULL));
+    for (int i = 0; i < 100; i++) {
         ds_list_push(ll1, rand() % 1000);
         ds_list_push(ll2, rand() % 1000);
+        ds_list_push(ll3, rand() % 1000);
     }
 
     printf("\nSorting ll1 with bubblesort.\n");
@@ -266,17 +273,52 @@ void test_sort() {
     execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
     ds_list_print_partial(ll2);
     printf("Quicksort took  %lfs\n", execution_time);
+
+    printf("\nSorting ll3 with mergesort.\n");
+    ds_list_print_partial(ll3);
+    start = clock();
+    ds_sort_mergesort_list(&ll3);
+    end = clock();
+    execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
+    ds_list_print_partial(ll3);
+    printf("Mergesort took  %lfs\n", execution_time);
+
     ds_list_destroy(ll1);
     ds_list_destroy(ll2);
+    ds_list_destroy(ll3);
+    printf("\n---------------------------------------------------------\n\n");
+}
+
+void test_set() {
+    // 1)
+    // test array with 50 elements 
+    char* test[] = {"c++", "c", "python", "ruby", "java", "javascript", "c#", "go", "rust", "haskell", "scala", "erlang", "prolog", "lisp", "clojure", "ocaml", "f#", "swift", "kotlin", "dart", "php", "perl", "bash", "zsh", "fish", "powershell", "c-shell", "korn-shell", "elisp", "scheme", "racket", "lua", "julia", "fortran", "cobol", "pascal", "ada", "basic", "visual-basic", "delphi", "matlab", "octave", "r", "s", "tcl", "awk", "sed", "groovy", "haxe", "nim", "nimrod", "nemerle", "boo", "fantom", "factor", "io", "ioke", "j", "jade", "j"};
+
+    // for (int i = 0; i < 100; i++) {
+    //     printf("%s %d, ", test[i], i);
+    //     fflush(stdout);
+    // }
+    printf("Testing Set\n");
+    Set* set = ds_set_new_Set();
+    printf("\nCalling ds_set_add() returns: \n");
+    for (int i = 0; i < 60; i++) {
+        ds_set_add_kvpair(set, i, test[i]);
+    }
+    ds_set_print_partial(set);
+    printf("\nCalling ds_set_remove() returns: \n");
+    ds_set_remove(set, 3);
+    ds_set_print_partial(set);
+    ds_set_destroy(set);
+    printf("\n---------------------------------------------------------\n\n");
 }
 
 int main () {
-    test_heap();
-    test_linked_list();
+    // test_heap();
+    // test_linked_list();
     test_vector(); 
-    test_binary_tree();
-    test_sort();
-    printf("\nDone\n");
+    // test_binary_tree();
+    // test_sort();
+    // test_set();
     printf("\nDone\n");
     return 0;
 }

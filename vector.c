@@ -1,8 +1,14 @@
 #include "data_structures.h"
 
 void ds_vector_double_vec_cap(Vector* vec) {
-    vec->vec = realloc(vec->vec, (sizeof(int) * vec->cap * 2));
+    vec->vec = realloc(vec->vec, (sizeof(int) * (u_int64_t) vec->cap * 2));
     vec->cap *= 2;
+    return;
+}
+
+void ds_vector_halve_vec_cap(Vector* vec) {
+    vec->vec = realloc(vec->vec, (sizeof(int) * (u_int64_t) vec->cap / 2));
+    vec->cap /= 2;
     return;
 }
 
@@ -22,11 +28,6 @@ int ds_vector_peek(Vector* vec) {
     return peek;
 }
 
-void ds_vector_halve_vec_cap(Vector* vec) {
-    vec->vec = realloc(vec->vec, (sizeof(int) * vec->cap / 2));
-    vec->cap /= 2;
-    return;
-}
 
 int ds_vector_pop(Vector* vec) {
     int tail = vec->vec[vec->len - 1];
@@ -60,6 +61,24 @@ void ds_vector_print_partial(Vector* vec) {
         printf("%d, ", vec->vec[i]);
     }
     printf("%d]\n", vec->vec[vec->len - 1]);
+    return;
+}
+
+void ds_vector_remove(Vector* vec, int x) {
+    int i = 0;
+    while (i < vec->len) {
+        if (vec->vec[i] == x) {
+            for (int j = i; j < vec->len - 1; j++) {
+                vec->vec[j] = vec->vec[j + 1];
+            }
+            vec->len--;
+            if (vec->len <= (vec->cap / 4)) {
+                ds_vector_halve_vec_cap(vec);
+            }
+        } else {
+            i++;
+        }
+    }
     return;
 }
 

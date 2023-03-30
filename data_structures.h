@@ -1,5 +1,6 @@
 #pragma once
 #include <time.h>
+#include <_types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,6 +47,25 @@ typedef struct Tree {
     Leaf* root;
 } Tree;
 
+// Key Value Pair. Should not be accessible to the user
+typedef struct kvPair {
+    int key;
+    char* value;
+    int height;
+    struct kvPair* left;
+    struct kvPair* right;
+} kvPair;
+
+// (AVL) Binary Tree. Root node is kvPair instead of Leaf Balance factor of 1.
+typedef struct SetTree {
+    kvPair* root;
+} SetTree;
+
+// Set of unique elements. Implemented as a Binary Tree with different Leaf Node
+typedef struct Set {
+    SetTree* tree;
+} Set;
+
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Vector functions that should be external:
 int     ds_vector_pop(Vector* vec);
@@ -78,8 +98,8 @@ Heap* ds_heap_new_Heap_from_Tree(Tree* tree, char* type);
 Heap* ds_heap_new_Heap_from_List(List* list, char* type);
 
 // Heap functions that should be internal:
-void  ds_heap_swim(Heap** Heap, int index);
-void  ds_heap_sink(Heap** Heap, int index);
+void ds_heap_swim(Heap** Heap, int index);
+void ds_heap_sink(Heap** Heap, int index);
 void ds_heap_new_Heap_from_Tree_recursive(Heap* Heap, Leaf* leaf);
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -102,7 +122,7 @@ Node* ds_list_new_Node(int x);
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // All tree functions that should be external:
 void  ds_tree_print(Tree* tree);
-void ds_tree_print_partial(Tree* tree);
+void  ds_tree_print_partial(Tree* tree);
 void  ds_tree_remove(Tree* tree, int key);
 void  ds_tree_add_leaf(Tree* tree, int x);
 void  ds_tree_destroy(Tree* tree);
@@ -114,7 +134,7 @@ int   ds_tree_max_child_height(Leaf* leaf);
 void  ds_tree_print_recursive(Leaf* leaf);
 void  ds_tree_destroy_recursive(Leaf* leaf);
 void  ds_tree_print_partial_recursive(Leaf* leaf, int* count);
-static Leaf* ds_tree_new_Leaf(int x);
+Leaf* ds_tree_new_Leaf(int x);
 Leaf* ds_tree_find_min(Leaf* node);
 Leaf* ds_tree_left_rotate(Leaf* leaf);
 Leaf* ds_tree_right_rotate(Leaf* leaf);
@@ -123,16 +143,41 @@ Leaf* ds_tree_add_leaf_recursive(Leaf* tree, int x);
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// QuickSort algorithm external functions:
-void ds_sort_quicksort_list(List** list);
-void ds_sort_bubblesort_list(List* list);
+// Sorting algorithms external functions:
+void ds_sort_mergesort_list(List** list);
 void ds_sort_mergesort_vector(Vector* vec);
+void ds_sort_quicksort_list(List** list);
 void ds_sort_quicksort_vector(Vector* vec);
 void ds_sort_bubblesort_vector(Vector* vec);
+void ds_sort_bubblesort_list(List* list);
 
-// QuickSort algorithm internal functions:
+// Sorting algorithms internal functions:
 int* ds_sort_mergesort(int* arr, int length);
-int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len);
 void ds_sort_quicksort(int arr[], int left, int right);
+int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len);
 
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// Set functions that should be external:
+Set*     ds_set_new_Set();
+void     ds_set_add_kvpair(Set* set, int k, char* v);
+void     ds_set_print(Set* set);
+void     ds_set_print_partial(Set* set) ;
+void     ds_set_remove(Set* set, int key);
+void     ds_set_destroy(Set* set);
+
+// Set functions that should be internal:
+int      ds_set_balance(kvPair* kvpair);
+int      ds_set_max_child_height(kvPair* kvpair);
+void     ds_set_print_recursive(kvPair* kvpair);
+void     ds_set_print_partial_recursive(kvPair* kvpair, int* count);
+void     ds_set_destroy_recursive(kvPair* kvpair);
+kvPair*  ds_set_add_kvpair_recursive(kvPair* kvpair, int k, char* v);
+kvPair*  ds_set_left_rotate(kvPair* x);
+kvPair*  ds_set_right_rotate(kvPair* y);
+kvPair*  ds_set_find_min(kvPair* node);
+kvPair*  ds_set_remove_recursive(kvPair* kvpair, int key) ;
+kvPair*  ds_set_new_kvpair(int k, char* v);
+SetTree* ds_set_new_SetTree();
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

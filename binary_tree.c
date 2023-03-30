@@ -1,8 +1,7 @@
 #include "data_structures.h"
 
 // **__This is a helper function and should not be called externally__
-// **__Will cause compile time error if called externally__
-static Leaf* ds_tree_new_Leaf(int x) {
+Leaf* ds_tree_new_Leaf(int x) {
     Leaf* new_leaf = malloc(sizeof(Leaf));
     new_leaf->key = x;
     new_leaf->height = 1;

@@ -1,7 +1,7 @@
 #include "data_structures.h"
 
 // **__This is a helper function and should not be called externally__
-kvPair* ds_set_new_kvpair(int k, char* v) {
+static kvPair* ds_set_new_kvpair(int k, char* v) {
     kvPair* new_kv = malloc(sizeof(kvPair));
     new_kv->key = k;
     new_kv->value = v;
@@ -11,7 +11,13 @@ kvPair* ds_set_new_kvpair(int k, char* v) {
     return new_kv;
 }
 
-int ds_set_max_child_height(kvPair* kvpair) {
+static SetTree* ds_set_new_SetTree() {
+    SetTree* new_tree = malloc(sizeof(SetTree));
+    new_tree->root = NULL;
+    return new_tree;
+}
+
+static int ds_set_max_child_height(kvPair* kvpair) {
     if (kvpair == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -20,7 +26,7 @@ int ds_set_max_child_height(kvPair* kvpair) {
     return (x > y)? x : y;
 }
 
-int ds_set_balance(kvPair* kvpair) {
+static int ds_set_balance(kvPair* kvpair) {
     if (kvpair == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -29,7 +35,7 @@ int ds_set_balance(kvPair* kvpair) {
     return (x - y);
 }
 
-kvPair* ds_set_left_rotate(kvPair* x) {
+static kvPair* ds_set_left_rotate(kvPair* x) {
     kvPair* y = x->right;
     kvPair* T2 = NULL; 
     if (y != NULL) T2 = y->left;
@@ -43,7 +49,7 @@ kvPair* ds_set_left_rotate(kvPair* x) {
     return y;
 }
 
-kvPair* ds_set_right_rotate(kvPair* y) {
+static kvPair* ds_set_right_rotate(kvPair* y) {
     kvPair* x = y->left;
     kvPair* T2 = NULL;
     if (x != NULL) T2 = x->right;
@@ -57,7 +63,7 @@ kvPair* ds_set_right_rotate(kvPair* y) {
     return x;
 }
 
-kvPair* ds_set_add_kvpair_recursive(kvPair* kvpair, int k, char* v) {
+static kvPair* ds_set_add_kvpair_recursive(kvPair* kvpair, int k, char* v) {
     if (kvpair == NULL) {
         return ds_set_new_kvpair(k, v);
     }
@@ -114,7 +120,7 @@ void ds_set_add_kvpair(Set* set, int k, char* v) {
     return;
 }
 
-kvPair* ds_set_find_min(kvPair* node) {
+static kvPair* ds_set_find_min(kvPair* node) {
     kvPair* current = node;
     while (current->left != NULL) {
         current = current->left;
@@ -122,7 +128,7 @@ kvPair* ds_set_find_min(kvPair* node) {
     return current;
 }
 
-kvPair* ds_set_remove_recursive(kvPair* kvpair, int key) {
+static kvPair* ds_set_remove_recursive(kvPair* kvpair, int key) {
     if (kvpair == NULL) return kvpair;
 
     if (key < kvpair->key) kvpair->left = ds_set_remove_recursive(kvpair->left, key);
@@ -181,7 +187,7 @@ void ds_set_remove(Set* set, int key) {
     set->tree->root = ds_set_remove_recursive(set->tree->root, key);
 }
 
-void ds_set_print_recursive(kvPair* kvpair) {
+static void ds_set_print_recursive(kvPair* kvpair) {
     if (kvpair == NULL) return;
     ds_set_print_recursive(kvpair->left);
     printf(" (%d: %s) ", kvpair->key, kvpair->value);
@@ -199,7 +205,7 @@ void ds_set_print(Set* set) {
 }
 
 // **__Internal recursive function__
-void ds_set_print_partial_recursive(kvPair* kvpair, int* count) {
+static void ds_set_print_partial_recursive(kvPair* kvpair, int* count) {
     if (kvpair == NULL) return;
     ds_set_print_partial_recursive(kvpair->left, count);
     if (*count < 7) {
@@ -221,7 +227,7 @@ void ds_set_print_partial(Set* set) {
     return;
 }
 
-void ds_set_destroy_recursive(kvPair* kvpair) {
+static void ds_set_destroy_recursive(kvPair* kvpair) {
     if (kvpair == NULL) return;
     ds_set_destroy_recursive(kvpair->left);
     ds_set_destroy_recursive(kvpair->right);
@@ -237,12 +243,6 @@ void ds_set_destroy(Set* set) {
     free(set);
     set = NULL;
     return;
-}
-
-SetTree* ds_set_new_SetTree() {
-    SetTree* new_tree = malloc(sizeof(SetTree));
-    new_tree->root = NULL;
-    return new_tree;
 }
 
 Set* ds_set_new_Set() {

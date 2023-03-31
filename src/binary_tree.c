@@ -1,7 +1,6 @@
 #include "data_structures.h"
 
-// **__This is a helper function and should not be called externally__
-Leaf* ds_tree_new_Leaf(int x) {
+static Leaf* ds_tree_new_Leaf(int x) {
     Leaf* new_leaf = malloc(sizeof(Leaf));
     new_leaf->key = x;
     new_leaf->height = 1;
@@ -10,7 +9,7 @@ Leaf* ds_tree_new_Leaf(int x) {
     return new_leaf;
 }
 
-int ds_tree_max_child_height(Leaf* leaf) {
+static int ds_tree_max_child_height(Leaf* leaf) {
     if (leaf == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -19,7 +18,7 @@ int ds_tree_max_child_height(Leaf* leaf) {
     return (x > y)? x : y;
 }
 
-int ds_tree_balance(Leaf* leaf) {
+static int ds_tree_balance(Leaf* leaf) {
     if (leaf == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -28,7 +27,7 @@ int ds_tree_balance(Leaf* leaf) {
     return (x - y);
 }
 
-Leaf* ds_tree_left_rotate(Leaf* x) {
+static Leaf* ds_tree_left_rotate(Leaf* x) {
     Leaf* y = x->right;
     Leaf* T2 = NULL; 
     if (y != NULL) T2 = y->left;
@@ -56,7 +55,7 @@ Leaf* ds_tree_right_rotate(Leaf* y) {
     return x;
 }
 
-Leaf* ds_tree_add_leaf_recursive(Leaf* leaf, int x){
+static Leaf* ds_tree_add_leaf_recursive(Leaf* leaf, int x){
     if (leaf == NULL) {
         return ds_tree_new_Leaf(x);
     }
@@ -118,7 +117,7 @@ Leaf* ds_tree_find_min(Leaf* node) {
     return current;
 }
 
-Leaf* ds_tree_remove_recursive(Leaf* leaf, int key) {
+static Leaf* ds_tree_remove_recursive(Leaf* leaf, int key) {
     if (leaf == NULL) return leaf;
 
     if (key < leaf->key) leaf->left = ds_tree_remove_recursive(leaf->left, key);
@@ -177,7 +176,7 @@ void ds_tree_remove(Tree* tree, int key) {
     tree->root = ds_tree_remove_recursive(tree->root, key);
 }
 
-void ds_tree_print_recursive(Leaf* leaf) {
+static void ds_tree_print_recursive(Leaf* leaf) {
     if (leaf == NULL) return;
     ds_tree_print_recursive(leaf->left);
     printf(" %d ", leaf->key);
@@ -195,7 +194,7 @@ void ds_tree_print(Tree* tree) {
 }
 
 // **__Internal recursive function__
-void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
+static void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
     if (leaf == NULL) return;
     ds_tree_print_partial_recursive(leaf->left, count);
     if (*count < 7) {
@@ -217,7 +216,7 @@ void ds_tree_print_partial(Tree* tree) {
     return;
 }
 
-void ds_tree_destroy_recursive(Leaf* leaf) {
+static void ds_tree_destroy_recursive(Leaf* leaf) {
     if (leaf == NULL) return;
     ds_tree_destroy_recursive(leaf->left);
     ds_tree_destroy_recursive(leaf->right);

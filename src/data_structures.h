@@ -1,14 +1,12 @@
-# DataStructures_C
-A few common data structures implemented in C including Heap (max or min), Linked List and Vectors
+#pragma once
+#include <time.h>
+#include <_types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-main.c constains some unit tests for all included data structures
-
-List of functions and structs supported for external use:
-
-
-```
 // Resizeble array: 
-// Doubles in size when at full capacity and halves its size when capacity is 1 / 4 full
+// Doubles in size when at full capicity and halves its size when capicity is 1 / 4 full
 typedef struct Vector {
     int* vec;
     int len;
@@ -24,18 +22,32 @@ typedef struct Heap {
     int cap;
 } Heap;
 
+// Node of a Linked List.
+typedef struct Node {
+    int content;
+    struct Node* next;
+} Node;
+
 // Singly linked list. Can act as a stack supporting push and pop functions
 typedef struct List {
     struct Node* head;
     struct Node* tail;
 } List;
 
+// Leaf node of Binary Tree.
+typedef struct Leaf {
+    int key;
+    int height;
+    struct Leaf* left;
+    struct Leaf* right;
+} Leaf;
+
 // (AVL) Binary Tree. Balance factor of 1. 
 typedef struct Tree {
     Leaf* root;
 } Tree;
 
-// Key Value Pair. Should not be accessible to the user
+// Key Value Pair.
 typedef struct kvPair {
     int key;
     char* value;
@@ -49,7 +61,7 @@ typedef struct SetTree {
     kvPair* root;
 } SetTree;
 
-// Set of unique elements. Implemented as a Binary Tree with different Leaf Node
+// Set of unique elements. Implemented as a Binary Tree with kvPair as leaf node.
 typedef struct Set {
     SetTree* tree;
 } Set;
@@ -124,4 +136,3 @@ void ds_sort_quicksort_vector(Vector* vec);
 void ds_sort_bubblesort_vector(Vector* vec);
 void ds_sort_bubblesort_list(List* list);
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-```

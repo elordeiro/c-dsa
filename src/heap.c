@@ -1,6 +1,6 @@
 #include "data_structures.h"
 
-void ds_heap_swim(Heap** Heap, int index) {
+static void ds_heap_swim(Heap** Heap, int index) {
     if (index == 1) return;
     int current = ds_vector_get_content_at_index((*Heap)->vec, index);
     int parent = ds_vector_get_content_at_index((*Heap)->vec, index / 2);
@@ -23,7 +23,7 @@ void ds_heap_swim(Heap** Heap, int index) {
     
 }
 
-void ds_heap_sink(Heap** Heap, int index) {
+static void ds_heap_sink(Heap** Heap, int index) {
     if (index * 2 > (*Heap)->tail) return;
     int parent = ds_vector_get_content_at_index((*Heap)->vec, index);
     int left_child = ds_vector_get_content_at_index((*Heap)->vec, index * 2);
@@ -55,6 +55,14 @@ void ds_heap_sink(Heap** Heap, int index) {
             ds_heap_sink(Heap, (index*2 + 1));
         }
     }
+    return;
+}
+
+static void ds_heap_new_Heap_from_Tree_recursive(Heap* Heap, Leaf* leaf) {
+    if (leaf == NULL) return;
+    ds_heap_push(Heap, leaf->key);
+    ds_heap_new_Heap_from_Tree_recursive(Heap, leaf->left);
+    ds_heap_new_Heap_from_Tree_recursive(Heap, leaf->right);
     return;
 }
 
@@ -124,13 +132,6 @@ Heap* ds_heap_new_Heap_from_List(List* list, char* type) {
     return hp;
 }
 
-void ds_heap_new_Heap_from_Tree_recursive(Heap* Heap, Leaf* leaf) {
-    if (leaf == NULL) return;
-    ds_heap_push(Heap, leaf->key);
-    ds_heap_new_Heap_from_Tree_recursive(Heap, leaf->left);
-    ds_heap_new_Heap_from_Tree_recursive(Heap, leaf->right);
-    return;
-}
 
 // Heapify a Binary Tree
 Heap* ds_heap_new_Heap_from_Tree(Tree* tree, char* type) {
@@ -139,6 +140,7 @@ Heap* ds_heap_new_Heap_from_Tree(Tree* tree, char* type) {
     ds_heap_new_Heap_from_Tree_recursive(hp, tree->root);
     return hp;
 }
+
 
 void ds_heap_destroy(Heap* heap) {
     ds_vector_destroy(heap->vec);

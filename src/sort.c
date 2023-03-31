@@ -1,7 +1,7 @@
 #include "data_structures.h"
 
 // sort vector using merge sort
-int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len) {
+static int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_arr_len) {
     int* result = malloc(sizeof(int) * (u_int64_t) (left_arr_len + right_arr_len));
     int i = 0; int l = 0; int r = 0;
 
@@ -30,7 +30,7 @@ int* ds_sort_merge(int* left_arr, int left_arr_len, int* right_arr, int right_ar
     return result; 
 }
 
-int* ds_sort_mergesort(int* arr, int length) {
+static int* ds_sort_mergesort(int* arr, int length) {
     if (length <= 1) return arr;
     int mid = length / 2;
     
@@ -107,7 +107,7 @@ void ds_sort_bubblesort_vector(Vector* vec) {
     return;
 }
 
-void ds_sort_quicksort(int arr[], int left, int right) {
+static void ds_sort_quicksort(int arr[], int left, int right) {
     if (right < left) return;
     int pivot = arr[right];
     int i = left - 1;

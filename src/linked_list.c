@@ -1,6 +1,6 @@
 #include "data_structures.h"
 
-Node* ds_list_new_Node(int x) {
+static Node* ds_list_new_Node(int x) {
     Node* nd = malloc(sizeof(Node));
     nd->content = x;
     nd->next = NULL;
@@ -30,8 +30,9 @@ void ds_list_push(List* list, int x) {
         list->tail = new_nd;
         return;
     }
-    list->tail->next = ds_list_new_Node(x);
-    list->tail = list->tail->next ;
+    Node* temp = list->head;
+    list->head = ds_list_new_Node(x);
+    list->head->next = temp;
     return;
 }
 
@@ -108,10 +109,24 @@ void ds_list_destroy(List* list) {
     list = NULL;
     return;
 }
+
+static void ds_list_push_reverse(List* list, int x) {
+    if (list->head == NULL) {
+        Node* new_nd = ds_list_new_Node(x);
+        list->head = new_nd;
+        list->tail = new_nd;
+        return;
+    }
+    Node* temp = ds_list_new_Node(x);
+    list->tail->next = temp;
+    list->tail = temp;
+    return;
+}
+
 List* ds_list_new_List_from_Vector(Vector* vec) {
     List* ll = ds_list_new_List();
     for (int i = 0; i < vec->len; i++) {
-        ds_list_push(ll, vec->vec[i]);
+        ds_list_push_reverse(ll, vec->vec[i]);
     }
     return ll;
 }

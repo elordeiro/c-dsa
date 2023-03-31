@@ -1,12 +1,12 @@
 #include "data_structures.h"
 
-void ds_vector_double_vec_cap(Vector* vec) {
+static void ds_vector_double_vec_cap(Vector* vec) {
     vec->vec = realloc(vec->vec, (sizeof(int) * (u_int64_t) vec->cap * 2));
     vec->cap *= 2;
     return;
 }
 
-void ds_vector_halve_vec_cap(Vector* vec) {
+static void ds_vector_halve_vec_cap(Vector* vec) {
     vec->vec = realloc(vec->vec, (sizeof(int) * (u_int64_t) vec->cap / 2));
     vec->cap /= 2;
     return;

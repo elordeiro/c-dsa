@@ -6,7 +6,7 @@ Data Structures:
 - Linked List  
 - Set  
 - Vector  
-- 
+
 Algorithms:
 - Merge Sort  
 - Quick Sort  

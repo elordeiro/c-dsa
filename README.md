@@ -6,6 +6,7 @@ Data Structures:
 - Linked List  
 - Set  
 - Vector  
+- 
 Algorithms:
 - Merge Sort  
 - Quick Sort  
@@ -244,7 +245,16 @@ Calling ds_tree_remove() returns:
 Testing Set
 
 Calling ds_set_add_kvpair(...) returns: 
-{ (0: c++)  (1: c)  (2: python)  (3: ruby)  (4: java)  (5: javascript)  (6: c#)  (7: go)  (8: rust)  (9: haskell)  (10: scala)  (11: erlang)  (12: prolog)  (13: lisp)  (14: clojure)  (15: ocaml)  (16: f#)  (17: swift)  (18: kotlin)  (19: dart)  (20: php)  (21: perl)  (22: bash)  (23: zsh)  (24: fish)  (25: powershell)  (26: c-shell)  (27: korn-shell)  (28: elisp)  (29: scheme)  (30: racket)  (31: lua)  (32: julia)  (33: fortran)  (34: cobol)  (35: pascal)  (36: ada)  (37: basic)  (38: visual-basic)  (39: delphi)  (40: matlab)  (41: octave)  (42: r)  (43: s)  (44: tcl)  (45: awk)  (46: sed)  (47: groovy)  (48: haxe)  (49: nim)  (50: nimrod)  (51: nemerle)  (52: boo)  (53: fantom)  (54: factor)  (55: io)  (56: ioke)  (57: j)  (58: jade)  (59: j) }
+{ 
+  (0: c++)  (1: c)  (2: python)  (3: ruby)  (4: java)  (5: javascript)  (6: c#)  (7: go)  (8: rust)  
+  (9: haskell)  (10: scala)   (11: erlang)  (12: prolog)  (13: lisp)  (14: clojure)  (15: ocaml)  (16: f#)  
+  (17: swift)  (18: kotlin)  (19: dart)  (20: php)  (21: perl)  (22: bash)  (23: zsh)  (24: fish)
+  (25: powershell)  (26: c-shell)  (27: korn-shell)  (28: elisp)  (29: scheme)  (30: racket)  (31: lua)  (32: julia)  
+  (33: fortran)  (34: cobol)  (35: pascal)  (36: ada)  (37: basic)  (38: visual-basic)  (39: delphi)  (40: matlab)
+  (41: octave)  (42: r)  (43: s)  (44: tcl)  (45: awk)  (46: sed)  (47: groovy)  (48: haxe)  
+  (49: nim)  (50: nimrod)  (51: nemerle)  (52: boo)  (53: fantom)  (54: factor)  (55: io)  (56: ioke)
+  (57: j)  (58: jade)  (59: j) 
+}
 { (0: c++)  (1: c)  (2: python)  (3: ruby)  (4: java)  (5: javascript)  (6: c#) ...}
 
 Calling ds_set_add_kvpair(4, my_lang) returns: 

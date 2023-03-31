@@ -302,7 +302,77 @@ Sorting ll3 with bubblesort.
 [0, 1, 1, 2, 3, 6, 8, ...]
 Bubblesort took  0.002100s
 
----------------------------------------------------------
+Sorting Exponetially larger vectors
+
+Vector size: 1024
+Mergesort Time: 0.000429  Quicksort Time: 0.000059
+Quicksort was faster than Mergesort by: 0.000370s
+----------------------------------------------------
+
+Vector size: 2048
+Mergesort Time: 0.000729  Quicksort Time: 0.000126
+Quicksort was faster than Mergesort by: 0.000603s
+----------------------------------------------------
+
+Vector size: 4096
+Mergesort Time: 0.001436  Quicksort Time: 0.000303
+Quicksort was faster than Mergesort by: 0.001133s
+----------------------------------------------------
+
+Vector size: 8192
+Mergesort Time: 0.003122  Quicksort Time: 0.000650
+Quicksort was faster than Mergesort by: 0.002472s
+----------------------------------------------------
+
+Vector size: 16384
+Mergesort Time: 0.005593  Quicksort Time: 0.001283
+Quicksort was faster than Mergesort by: 0.004310s
+----------------------------------------------------
+
+Vector size: 32768
+Mergesort Time: 0.012176  Quicksort Time: 0.002873
+Quicksort was faster than Mergesort by: 0.009303s
+----------------------------------------------------
+
+Vector size: 65536
+Mergesort Time: 0.022869  Quicksort Time: 0.007717
+Quicksort was faster than Mergesort by: 0.015152s
+----------------------------------------------------
+
+Vector size: 131072
+Mergesort Time: 0.048141  Quicksort Time: 0.021894
+Quicksort was faster than Mergesort by: 0.026247s
+----------------------------------------------------
+
+Vector size: 262144
+Mergesort Time: 0.090553  Quicksort Time: 0.066608
+Quicksort was faster than Mergesort by: 0.023945s
+----------------------------------------------------
+
+Vector size: 524288
+Mergesort Time: 0.182901  Quicksort Time: 0.237874
+Mergesort was faster than Quicksort by: 0.054973s
+----------------------------------------------------
+
+Vector size: 1048576
+Mergesort Time: 0.377793  Quicksort Time: 0.869564
+Mergesort was faster than Quicksort by: 0.491771s
+----------------------------------------------------
+
+Vector size: 2097152
+Mergesort Time: 0.747816  Quicksort Time: 3.321189
+Mergesort was faster than Quicksort by: 2.573373s
+----------------------------------------------------
+
+Vector size: 4194304
+Mergesort Time: 1.521898  Quicksort Time: 12.946567
+Mergesort was faster than Quicksort by: 11.424669s
+----------------------------------------------------
+
+Vector size: 8388608
+Mergesort Time: 3.127553  Quicksort Time: 50.425276
+Mergesort was faster than Quicksort by: 47.297723s
+----------------------------------------------------
 
 
 Done

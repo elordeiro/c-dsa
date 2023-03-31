@@ -2,6 +2,8 @@
 
 const int VECTOR_SIZE = 1000;
 const int LIST_SIZE = 1000;
+double qs = 0;
+double ms = 0;
 double execution_time;
 clock_t start, end;
 
@@ -71,6 +73,39 @@ static void test_bubblesort_list(List* ll3) {
     printf("Bubblesort took  %lfs\n", execution_time);
 }
 
+static double test_mergesort_vector_no_print(Vector* vec) {
+    start = clock();
+    ds_sort_mergesort_vector(vec);
+    end = clock();
+    execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
+    return execution_time;
+}
+
+static double test_quicksort_vector_no_print(Vector* vec) {
+    start = clock();
+    ds_sort_quicksort_vector(vec);
+    end = clock();
+    execution_time = ((double)(end - start))/CLOCKS_PER_SEC;
+    return execution_time;
+}
+
+
+static void test_exponential_sort(int size) {
+    Vector* vec1 = ds_vector_new_Vector();
+    Vector* vec2 = ds_vector_new_Vector();
+    
+    srand((u_int32_t) time(NULL));
+    for (int i = 0; i < size; i++) {
+        ds_vector_push(vec1, rand() % 1000);
+        ds_vector_push(vec2, rand() % 1000);
+    }
+
+    ms = test_mergesort_vector_no_print(vec1);
+    qs = test_quicksort_vector_no_print(vec2);
+
+    ds_vector_destroy(vec1);
+    ds_vector_destroy(vec2);
+}
 
 void test_sort() {
     srand((u_int32_t) time(NULL)); 
@@ -115,5 +150,18 @@ void test_sort() {
     ds_list_destroy(ll1);
     ds_list_destroy(ll2);
     ds_list_destroy(ll3);
-    printf("\n---------------------------------------------------------\n\n");
+
+    printf("\nSorting Exponetially larger vectors\n\n");
+    for (int i = 1024; i < 10000000; i = i * 2) {
+        test_exponential_sort(i);
+        printf("Vector size: %d\n", i);
+        printf("Mergesort Time: %f  Quicksort Time: %f\n", ms, qs);
+        if (qs > ms) {
+            printf("Mergesort was faster than Quicksort by: %lfs\n", qs - ms);
+        } else {
+            printf("Quicksort was faster than Mergesort by: %lfs\n", ms - qs);
+        }
+        printf("----------------------------------------------------\n\n");
+    }
+    // printf("\n---------------------------------------------------------\n\n");
 }

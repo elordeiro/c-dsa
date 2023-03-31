@@ -148,6 +148,7 @@ static kvPair* ds_set_remove_recursive(kvPair* kvpair, int key) {
         // Case 2: node has two children
         kvPair* temp = ds_set_find_min(kvpair->right);
         kvpair->key = temp->key;
+        kvpair->value = temp->value;
         kvpair->right = ds_set_remove_recursive(kvpair->right, temp->key);
     }
     

@@ -18,8 +18,8 @@ static void test_ds_set_set(Set* set) {
 }
 
 static void test_ds_set_remove(Set* set) {
-    printf("\nCalling ds_set_remove(3) returns: \n");
-    ds_set_remove(set, 3);
+    printf("\nCalling ds_set_remove(4) returns: \n");
+    ds_set_remove(set, 4);
     ds_set_print_partial(set);
 }
 

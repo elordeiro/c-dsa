@@ -260,8 +260,8 @@ Calling ds_set_add_kvpair(...) returns:
 Calling ds_set_add_kvpair(4, my_lang) returns: 
 { (0: c++)  (1: c)  (2: python)  (3: ruby)  (4: my_lang)  (5: javascript)  (6: c#) ...}
 
-Calling ds_set_remove(3) returns: 
-{ (0: c++)  (1: c)  (2: python)  (4: ruby)  (5: javascript)  (6: c#)  (7: go) ...}
+Calling ds_set_remove(4) returns: 
+{ (0: c++)  (1: c)  (2: python)  (3: ruby)  (5: javascript)  (6: c#)  (7: go) ...}  
 
 ---------------------------------------------------------
 

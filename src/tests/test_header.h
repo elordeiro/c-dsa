@@ -7,3 +7,4 @@ void test_linked_list();
 void test_binary_tree();
 void test_set();
 void test_sort();
+void test_hashtable();

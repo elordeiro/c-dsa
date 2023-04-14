@@ -1,6 +1,6 @@
 #include "data_structures.h"
 
-static Leaf* ds_tree_new_Leaf(int x) {
+static Leaf* new_leaf(int x) {
     Leaf* new_leaf = malloc(sizeof(Leaf));
     new_leaf->key = x;
     new_leaf->height = 1;
@@ -8,8 +8,7 @@ static Leaf* ds_tree_new_Leaf(int x) {
     new_leaf->right = NULL;
     return new_leaf;
 }
-
-static int ds_tree_max_child_height(Leaf* leaf) {
+static int max_child_height(Leaf* leaf) {
     if (leaf == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -18,7 +17,7 @@ static int ds_tree_max_child_height(Leaf* leaf) {
     return (x > y)? x : y;
 }
 
-static int ds_tree_balance(Leaf* leaf) {
+static int get_balance(Leaf* leaf) {
     if (leaf == NULL) return 0;
     int x = 0;
     int y = 0;
@@ -27,7 +26,7 @@ static int ds_tree_balance(Leaf* leaf) {
     return (x - y);
 }
 
-static Leaf* ds_tree_left_rotate(Leaf* x) {
+static Leaf* left_rotate(Leaf* x) {
     Leaf* y = x->right;
     Leaf* T2 = NULL; 
     if (y != NULL) T2 = y->left;
@@ -35,13 +34,13 @@ static Leaf* ds_tree_left_rotate(Leaf* x) {
     if (y != NULL) y->left = x;
     x->right = T2;
  
-    x->height = ds_tree_max_child_height(x) + 1;
-    if (y != NULL) y->height = ds_tree_max_child_height(y) + 1;
+    x->height = max_child_height(x) + 1;
+    if (y != NULL) y->height = max_child_height(y) + 1;
     
     return y;
 }
 
-Leaf* ds_tree_right_rotate(Leaf* y) {
+static Leaf* right_rotate(Leaf* y) {
     Leaf* x = y->left;
     Leaf* T2 = NULL;
     if (x != NULL) T2 = x->right;
@@ -49,67 +48,67 @@ Leaf* ds_tree_right_rotate(Leaf* y) {
     if (x != NULL) x->right = y;
     y->left = T2;
     
-    y->height = ds_tree_max_child_height(y) + 1;
-    if (x != NULL) x->height = ds_tree_max_child_height(x) + 1;
+    y->height = max_child_height(y) + 1;
+    if (x != NULL) x->height = max_child_height(x) + 1;
     
     return x;
 }
 
-static Leaf* ds_tree_add_leaf_recursive(Leaf* leaf, int x){
+static Leaf* add_recursive(Leaf* leaf, int x){
     if (leaf == NULL) {
-        return ds_tree_new_Leaf(x);
+        return new_leaf(x);
     }
-    if (x < leaf->key) leaf->left = ds_tree_add_leaf_recursive(leaf->left, x);
-    else if (x > leaf->key) leaf->right = ds_tree_add_leaf_recursive(leaf->right, x);
+    if (x < leaf->key) leaf->left = add_recursive(leaf->left, x);
+    else if (x > leaf->key) leaf->right = add_recursive(leaf->right, x);
     else return leaf;
 
-    leaf->height = ds_tree_max_child_height(leaf) + 1;
+    leaf->height = max_child_height(leaf) + 1;
     
-    int balance = ds_tree_balance(leaf);
+    int balance = get_balance(leaf);
   
     // Left Left Case
     if (leaf->left != NULL)
         if (balance > 1 &&  x <  leaf->left->key)
-            return ds_tree_right_rotate(leaf);
+            return right_rotate(leaf);
  
     // Right Right Case
     if (leaf->right != NULL)
         if (balance < -1 && x > leaf->right->key)
-            return ds_tree_left_rotate(leaf);
+            return left_rotate(leaf);
  
     // Left Right Case
     if (leaf->left != NULL) {
         if (balance > 1 && x > leaf->left->key) {
-            leaf->left = ds_tree_left_rotate(leaf->left);
-            return ds_tree_right_rotate(leaf);
+            leaf->left = left_rotate(leaf->left);
+            return right_rotate(leaf);
         }
     }
     // Right Left Case
     if (leaf->right != NULL) {
         if (balance < -1 && x < leaf->right->key) {
-            leaf->right = ds_tree_right_rotate(leaf->right);
-            return ds_tree_left_rotate(leaf);
+            leaf->right = right_rotate(leaf->right);
+            return left_rotate(leaf);
         }
     }
     return leaf;
 }
 
-void ds_tree_add_leaf(Tree* tree, int x) {
+void tree_add(Tree* tree, int x) {
     if (tree == NULL) {
-        tree = ds_tree_new_Tree();
-        tree->root = ds_tree_new_Leaf(x);
+        tree = ds_new_tree();
+        tree->root = new_leaf(x);
         return;
     }
     if (tree->root == NULL) {
-        Leaf* new_leaf = ds_tree_new_Leaf(x);
-        tree->root = new_leaf;
+        Leaf* new_lf = new_leaf(x);
+        tree->root = new_lf;
         return;
     }
-    tree->root = ds_tree_add_leaf_recursive(tree->root, x);
+    tree->root = add_recursive(tree->root, x);
     return;
 }
 
-Leaf* ds_tree_find_min(Leaf* node) {
+static Leaf* find_min(Leaf* node) {
     Leaf* current = node;
     while (current->left != NULL) {
         current = current->left;
@@ -117,11 +116,11 @@ Leaf* ds_tree_find_min(Leaf* node) {
     return current;
 }
 
-static Leaf* ds_tree_remove_recursive(Leaf* leaf, int key) {
+static Leaf* remove_recursive(Leaf* leaf, int key) {
     if (leaf == NULL) return leaf;
 
-    if (key < leaf->key) leaf->left = ds_tree_remove_recursive(leaf->left, key);
-    else if (key > leaf->key) leaf->right = ds_tree_remove_recursive(leaf->right, key);
+    if (key < leaf->key) leaf->left = remove_recursive(leaf->left, key);
+    else if (key > leaf->key) leaf->right = remove_recursive(leaf->right, key);
     else {
         // Case 1: leaf node or only one child
         if (leaf->left == NULL) {
@@ -135,98 +134,159 @@ static Leaf* ds_tree_remove_recursive(Leaf* leaf, int key) {
             return temp;
         }
         // Case 2: node has two children
-        Leaf* temp = ds_tree_find_min(leaf->right);
+        Leaf* temp = find_min(leaf->right);
         leaf->key = temp->key;
-        leaf->right = ds_tree_remove_recursive(leaf->right, temp->key);
+        leaf->right = remove_recursive(leaf->right, temp->key);
     }
     
-    leaf->height = ds_tree_max_child_height(leaf) + 1;
+    leaf->height = max_child_height(leaf) + 1;
 
-    int balance = ds_tree_balance(leaf);  
+    int balance = get_balance(leaf);  
     // Left Left Case
     if (leaf->left != NULL)
-        if (balance > 1 && ds_tree_balance(leaf->left) >= 0)
-            return ds_tree_right_rotate(leaf);
+        if (balance > 1 && get_balance(leaf->left) >= 0)
+            return right_rotate(leaf);
  
     // Left Right Case
     if (leaf->left != NULL)
-        if (balance > 1 && ds_tree_balance(leaf->left) < 0) {
-            leaf->left = ds_tree_left_rotate(leaf->left);
-            return ds_tree_right_rotate(leaf);
+        if (balance > 1 && get_balance(leaf->left) < 0) {
+            leaf->left = left_rotate(leaf->left);
+            return right_rotate(leaf);
         }
     // Right Right Case
     if (leaf->right != NULL)
-        if (balance < -1 && ds_tree_balance(leaf->right) <= 0)
-            return ds_tree_left_rotate(leaf);
+        if (balance < -1 && get_balance(leaf->right) <= 0)
+            return left_rotate(leaf);
  
     // Right Left Case
     if (leaf->right != NULL)
-        if (balance < -1 && ds_tree_balance(leaf->right) > 0) {
-            leaf->right = ds_tree_right_rotate(leaf->right);
-            return ds_tree_left_rotate(leaf);
+        if (balance < -1 && get_balance(leaf->right) > 0) {
+            leaf->right = right_rotate(leaf->right);
+            return left_rotate(leaf);
         }
     return leaf;
 }
 
 // Function to delete a node with a given key from the tree
-void ds_tree_remove(Tree* tree, int key) {
+void tree_remove(Tree* tree, int key) {
     if (tree == NULL || tree->root == NULL) {
         return;
     }
-    tree->root = ds_tree_remove_recursive(tree->root, key);
+    tree->root = remove_recursive(tree->root, key);
 }
-
-static void ds_tree_print_recursive(Leaf* leaf) {
+//go back to in order traversal
+static void print_recursive(Leaf* leaf) {
     if (leaf == NULL) return;
-    ds_tree_print_recursive(leaf->left);
     printf(" %d ", leaf->key);
-    ds_tree_print_recursive(leaf->right);
+    print_recursive(leaf->left);
+    print_recursive(leaf->right);
     return;
 }
 
 // *__Print entire Tree__
-void ds_tree_print(Tree* tree) {
+void tree_print(Tree* tree) {
     if (tree == NULL || tree->root == NULL) return;
     printf("[");
-    ds_tree_print_recursive(tree->root);
+    print_recursive(tree->root);
     printf("]\n");
     return;
 }
 
-// **__Internal recursive function__
-static void ds_tree_print_partial_recursive(Leaf* leaf, int* count) {
-    if (leaf == NULL) return;
-    ds_tree_print_partial_recursive(leaf->left, count);
-    if (*count < 7) {
-        (*count)++;
-        printf(" %d ", leaf->key);
+// Print the nodes at a specific level of the BST
+static void print_level(Leaf* node, int level, int padding, int actual_level, int* total_padding) {
+    if (node == NULL || level < 1) {
+        return;
     }
-    ds_tree_print_partial_recursive(leaf->right, count);
-    return;
+    if (level == 1) {
+        printf("%3d", node->key);
+        (*total_padding) += 3;
+        if (actual_level > 1) {
+            for (int i = 0; i < padding; i++) {
+                if (*total_padding > 288) break;
+                printf(" ");
+                (*total_padding)++;
+            }
+        }
+        for (int i = 0; i < pow(2, 6 - actual_level) - 1; i++) {
+            if (*total_padding > 288) break;
+            printf("   ");
+            (*total_padding) += 3;
+        }
+    } else {
+        // recursively traverse the left and right subtrees
+        print_level(node->left, level - 1, padding, actual_level, total_padding);
+        print_level(node->right, level - 1, padding, actual_level, total_padding);
+    }
 }
 
-// **__Print a partial Tree with a maximun of 7 nodes__
-// **__Partial print example: [1, 2, 3, 4, 5, 6, 7, ...]__
-void ds_tree_print_partial(Tree* tree) {
-    if (tree == NULL || tree->root == NULL) return;
-    printf("[");
-    int count = 0;
-    ds_tree_print_partial_recursive(tree->root, &count);
-    printf("...]\n");
-    return;
+static void print_branches(int level, int padding, int actual_level, int* total_padding) {
+    if (level < 1) {
+        return;
+    }
+    if (level == 1) {
+        printf("/ \\");
+        (*total_padding) += 3;
+        if (actual_level > 1) {
+            for (int i = 0; i < padding; i++) {
+                if (*total_padding > 288) break;
+                printf(" ");
+                (*total_padding)++;
+            }
+        }
+        for (int i = 0; i < pow(2, 6 - actual_level) - 1; i++) {
+            if (*total_padding > 288) break;
+            printf("   ");
+            (*total_padding) += 3;
+        }
+    } else {
+        // recursively traverse the left and right subtrees
+        print_branches(level - 1, padding, actual_level, total_padding);
+        print_branches(level - 1, padding, actual_level, total_padding);
+    }
 }
 
-static void ds_tree_destroy_recursive(Leaf* leaf) {
+void tree_print_partial(Tree* tree) {
+    int height = 5;
+    int padding = 384;
+    int prepadding;
+    int i;
+    int total_padding = 0;
+    // print each level of the BST
+    for (int level = 0; level <= height + 1; level++) {
+        int a = (int) (pow(2, (6 - (level+1))) - 1) * 3;
+        int b = (int) (pow(2, (6 - (level+1))) - 1) * 6;
+        prepadding = a+b+4;
+        if (level > 0) {
+            for (i = 0; i < prepadding; i++) {
+                printf(" ");
+            }
+        }
+        total_padding = prepadding;
+        print_level(tree->root, level, padding, level, &total_padding);
+        if (level > 0) {
+            printf("\n");
+            for (i = 0; i < prepadding; i++) {
+                printf(" ");
+            }
+            total_padding = prepadding;
+            print_branches(level, padding, level, &total_padding);
+            printf("\n");
+        }
+        padding /= 2;
+    }
+}
+
+static void destroy_recursive(Leaf* leaf) {
     if (leaf == NULL) return;
-    ds_tree_destroy_recursive(leaf->left);
-    ds_tree_destroy_recursive(leaf->right);
+    destroy_recursive(leaf->left);
+    destroy_recursive(leaf->right);
     free(leaf);
     leaf = NULL;
     return;
 }
 
-void ds_tree_destroy(Tree* tree) {
-    ds_tree_destroy_recursive(tree->root);
+void tree_destroy(Tree* tree) {
+    destroy_recursive(tree->root);
     free(tree);
     tree = NULL;
     return;
@@ -234,7 +294,7 @@ void ds_tree_destroy(Tree* tree) {
 
 // **__Create a new Tree node__
 // **__Tree root is initiallized to NULL__
-Tree* ds_tree_new_Tree() {
+Tree* ds_new_tree() {
     Tree* new_tree = malloc(sizeof(Tree));
     new_tree->root = NULL;
     return new_tree;

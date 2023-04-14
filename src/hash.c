@@ -1,5 +1,5 @@
 #include "data_structures.h"
-
+// testing github access 
 static int hashtable_hash(char* str, int size) {
     int i = 0;
     for (int j = 0; str[j]; j++) {

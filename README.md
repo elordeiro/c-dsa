@@ -1,4 +1,4 @@
-# DataStructures_C
+# Data Structures and Algorithms in C
 A few common data structures and algorithms implemented in C  
 Data Structures:
 - Binary Tree  
